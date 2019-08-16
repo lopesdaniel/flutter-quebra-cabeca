@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:quebra_cabeca/puzzle_piece.dart';
 
 void main() => runApp(MyApp());
 
@@ -21,6 +22,8 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   final String title;
+  final int rows = 3;
+  final int cols = 3;
 
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -32,13 +35,54 @@ class _MyHomePageState extends State<MyHomePage> {
 
   File _image;
 
+  List<Widget> pieces = [];
+
   Future getImage(ImageSource source) async {
     var image = await ImagePicker.pickImage(source: source);
 
     if (image != null) {
       setState(() {
         _image = image;
+        pieces.clear();
       });
+      splitImage(Image.file(image));
+    }
+  }
+
+  // we need to find out the image size, to be used in the PuzzlePiece widget
+  Future<Size> getImageSize(Image image) async {
+    final Completer<Size> completer = Completer<Size>();
+
+    image.image.resolve(const ImageConfiguration()).addListener(
+          (ImageInfo info, bool _) {
+        completer.complete(Size(
+          info.image.width.toDouble(),
+          info.image.height.toDouble(),
+        ));
+      },
+    );
+
+    final Size imageSize = await completer.future;
+
+    return imageSize;
+  }
+
+  // aqui dividiremos a imagem em pequenos pedaços usando as linhas e colunas definidas acima; Cada peça será adicionada a uma pilha...
+  void splitImage(Image image) async {
+    Size imageSize = await getImageSize(image);
+
+    for (int x = 0; x < widget.rows; x++) {
+      for (int y = 0; y < widget.cols; y++) {
+        setState(() {
+          pieces.add(PuzzlePiece(key: GlobalKey(),
+              image: image,
+              imageSize: imageSize,
+              row: x,
+              col: y,
+              maxRow: widget.rows,
+              maxCol: widget.cols));
+        });
+      }
     }
   }
 
@@ -52,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new Center(
           child: _image == null
             ? new Text('No image selected.')
-            : Image.file(_image)
+            : Stack(children: pieces)
         ),
       ),
       floatingActionButton: FloatingActionButton(
