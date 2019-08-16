@@ -30,6 +30,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  File _image;
+
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
+
+    if (image != null) {
+      setState(() {
+        _image = image;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +50,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SafeArea(
         child: new Center(
-          child: new Text('No image selected.'),
+          child: _image == null
+            ? new Text('No image selected.')
+            : Image.file(_image)
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -52,12 +66,20 @@ class _MyHomePageState extends State<MyHomePage> {
                        new ListTile(
                          leading: new Icon(Icons.camera),
                          title: new Text('Camera'),
-                         onTap: () => null,
+                         onTap: () {
+                           getImage(ImageSource.camera);
+                          // this is how you dismiss the modal bottom sheet after making a choice
+                            Navigator.pop(context);
+                         },
                        ),
                        new ListTile(
                          leading: new Icon(Icons.image),
                          title: new Text('Gallery'),
-                         onTap: () => null,
+                         onTap: () {
+                           getImage(ImageSource.gallery);
+                          // dismiss the modal sheet
+                           Navigator.pop(context);
+                         }
                        ),
                      ],
                    ),
