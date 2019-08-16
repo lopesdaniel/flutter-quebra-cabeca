@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Puzzle',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.indigo,
       ),
-      home: MyHomePage(title: 'Flutter Puzzle'),
+      home: MyHomePage(title: 'Flutter Quebra-Cabeça'),
     );
   }
 }
@@ -80,10 +80,27 @@ class _MyHomePageState extends State<MyHomePage> {
               row: x,
               col: y,
               maxRow: widget.rows,
-              maxCol: widget.cols));
+              maxCol: widget.cols,
+              bringToTop: this.bringToTop,
+              sendToBack: this.sendToBack));
         });
       }
     }
+  }
+
+  void bringToTop(Widget widget) {
+    setState(() {
+      pieces.remove(widget);
+      pieces.add(widget);
+    });
+  }
+
+  // quando uma peça atinge sua posição final, ela será enviada para o final da pilha para não atrapalhar outras peças ainda móveis..
+  void sendToBack(Widget widget) {
+    setState(() {
+      pieces.remove(widget);
+      pieces.insert(0, widget);
+    });
   }
 
   @override
@@ -109,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
                      children: [
                        new ListTile(
                          leading: new Icon(Icons.camera),
-                         title: new Text('Camera'),
+                         title: new Text('Câmera'),
                          onTap: () {
                            getImage(ImageSource.camera);
                           // é assim que você descarta o modal bottom sheet depois de fazer uma escolha
@@ -118,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                        ),
                        new ListTile(
                          leading: new Icon(Icons.image),
-                         title: new Text('Gallery'),
+                         title: new Text('Galeria'),
                          onTap: () {
                            getImage(ImageSource.gallery);
                            Navigator.pop(context);
