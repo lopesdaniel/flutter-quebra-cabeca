@@ -2,9 +2,9 @@
 
 Joguinho de quebra-cabeça feito (com muito orgulho :smile:) utilizando o framework Flutter.
 
-![add](./screenshots/adicionar.png?raw=true 'adicionar'=400x400)
-![before](./screenshots/antes.png?raw=true 'embaralhado'=400x400)
-![after](./screenshots/depois.png?raw=true 'montado'=400x400)
+<img src="./screenshots/adicionar.png" width="400" height="400">
+<img src="./screenshots/antes.png" width="400" height="400">
+<img src="./screenshots/depois.png" width="400" height="400">
 
 Obs.: Baseado no [artigo](https://medium.com/quick-code/building-a-puzzle-game-using-flutter-6f629873102d) escrito por Dragos Holban.
 
