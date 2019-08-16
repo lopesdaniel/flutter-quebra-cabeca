@@ -20,6 +20,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>O aplicativo precisa acessar a Biblioteca de fotos para poder carregar imagens a partir dela.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>O aplicativo precisa acessar a Câmera para poder obter imagens dela.</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

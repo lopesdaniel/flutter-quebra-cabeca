@@ -68,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                          title: new Text('Camera'),
                          onTap: () {
                            getImage(ImageSource.camera);
-                          // this is how you dismiss the modal bottom sheet after making a choice
+                          // é assim que você descarta o modal bottom sheet depois de fazer uma escolha
                             Navigator.pop(context);
                          },
                        ),
@@ -77,7 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
                          title: new Text('Gallery'),
                          onTap: () {
                            getImage(ImageSource.gallery);
-                          // dismiss the modal sheet
                            Navigator.pop(context);
                          }
                        ),
